@@ -1,0 +1,79 @@
+{
+  "cutoff_kst": "2024-04-30",
+  "sources": {
+    "sales-2021": {
+      "file": "sales-2021.zip",
+      "portal_modified": "2023-10-30",
+      "sha256": "856e78aaacded902201d2476b274c5eb4f90b86eece4af4e4f2bba60c3d79eed",
+      "zip_member_dates": [
+        "2025-06-04"
+      ],
+      "eligible": false,
+      "reason": "ZIP member timestamp after cutoff"
+    },
+    "sales-2022": {
+      "file": "sales-2022.zip",
+      "portal_modified": "2023-10-30",
+      "sha256": "748bf317428f5085ba64aeee9aed6c52b465b304d28c941d527e816d1909abe6",
+      "zip_member_dates": [
+        "2025-06-04"
+      ],
+      "eligible": false,
+      "reason": "ZIP member timestamp after cutoff"
+    },
+    "stores-2021": {
+      "file": "stores-2021.zip",
+      "portal_modified": "2023-10-30",
+      "sha256": "c77313e0faab4fe4fe39a1657f2f530640c945ba41601e9eb960dd32bdc2434b",
+      "zip_member_dates": [
+        "2025-06-04"
+      ],
+      "eligible": false,
+      "reason": "ZIP member timestamp after cutoff"
+    },
+    "stores-2022": {
+      "file": "stores-2022.zip",
+      "portal_modified": "2023-10-30",
+      "sha256": "03ffa708ed864d12b56e8c608eb9d83e5337ff3ed3bd28826db9593fab678930",
+      "zip_member_dates": [
+        "2025-06-04"
+      ],
+      "eligible": false,
+      "reason": "ZIP member timestamp after cutoff"
+    },
+    "areas": {
+      "file": "areas.zip",
+      "portal_modified": "2023-10-23",
+      "sha256": "38bb8fab4e45a1171af4989cd7fa1275f68e5d644aa770f5431ce7ccc38384dd",
+      "zip_member_dates": [
+        "2023-10-20"
+      ],
+      "eligible": true,
+      "version_date": "2023-10-23",
+      "version_evidence": "https://data.seoul.go.kr/dataList/OA-15560/S/1/datasetView.do (file modified date and ZIP member dates agree)"
+    }
+  },
+  "area": {
+    "area_codes": 1650,
+    "districts": 25,
+    "crs": "EPSG:5181",
+    "unique_area_key": true,
+    "representative_points_in_seoul_bbox": true,
+    "points_outside_own_shape_bbox": 0,
+    "duplicate_representative_coordinate_rows": 0,
+    "geometry_demo_district": "강남구",
+    "geometry_demo_selection_rule": "largest district by area count, then district code",
+    "geometry_demo_sites": [
+      "3110962",
+      "3110985",
+      "3110992",
+      "3120194",
+      "3120203"
+    ],
+    "geometry_demo_demand_points": 103,
+    "geometry_demo_covered_points": 35,
+    "geometry_demo_radius_m": 500,
+    "geometry_demo_selected_count": 5,
+    "geometry_demo_source": "OA-15560; uniform weight per representative point"
+  }
+}
