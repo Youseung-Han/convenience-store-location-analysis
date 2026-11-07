@@ -33,13 +33,19 @@ class SourceTests(unittest.TestCase):
             file = root / "late.zip"
             with ZipFile(file, "w") as archive:
                 archive.writestr(ZipInfo("source.csv", (2025, 6, 4, 0, 0, 0)), "value")
-            report = audit_source(root, {
+            entry = {
                 "path": file.name, "sha256": sha256(file.read_bytes()).hexdigest(),
                 "portal_modified": "2023-10-30", "version_date": "2023-10-30",
                 "version_evidence": "unit test",
-            })
+            }
+            report = audit_source(root, entry)
             self.assertFalse(report["eligible"])
             self.assertEqual(report["reason"], "ZIP member timestamp after cutoff")
+            revised = audit_source(root, entry, allow_revised=True)
+            self.assertTrue(revised["eligible"])
+            self.assertEqual(revised["version_policy"], "historical_observations_in_revised_snapshot")
+            self.assertFalse(audit_source(root, entry | {"sha256": "wrong"},
+                                          allow_revised=True)["eligible"])
 
     def test_version_requires_matching_hash_and_date(self):
         with TemporaryDirectory() as directory:
@@ -62,6 +68,12 @@ class SourceTests(unittest.TestCase):
             sales = read_quarters(archive, "sales", 2021, "quarter_total")
             self.assertEqual(sales["area"].iloc[0], "001")
             self.assertEqual(sales["sales"].sum(), 2000)
+            rows[-1] = rows[-1].replace("2021,", "2024,", 1)
+            with ZipFile(archive, "w") as zip_file:
+                zip_file.writestr("sales.csv", "\n".join([columns, *rows]).encode("cp949"))
+            with self.assertRaisesRegex(ValueError, "out-of-year quarter"):
+                read_quarters(archive, "sales", 2021, "quarter_total")
+
 
     def test_join_key_rejects_duplicates_and_missing(self):
         for codes in (["1", "1"], ["1", None]):

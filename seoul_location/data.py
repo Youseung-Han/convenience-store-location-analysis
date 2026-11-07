@@ -43,7 +43,7 @@ def download(raw, manifest):
         path.write_bytes(content)
 
 
-def audit_source(raw, entry):
+def audit_source(raw, entry, *, allow_revised=False):
     path = raw / entry["path"]
     report = {"file": path.name, "portal_modified": entry.get("portal_modified")}
     if not path.is_file():
@@ -61,10 +61,12 @@ def audit_source(raw, entry):
         return report | {"eligible": False, "reason": "SHA-256 mismatch"}
     verified = entry.get("version_date")
     evidence = entry.get("version_evidence")
-    if any(stamp > CUTOFF.isoformat() for stamp in report.get("zip_member_dates", [])):
-        return report | {"eligible": False, "reason": "ZIP member timestamp after cutoff"}
-    if not verified or not evidence or date.fromisoformat(verified) > CUTOFF:
-        return report | {"eligible": False, "reason": "pre-cutoff version evidence missing"}
+    late_members = any(stamp > CUTOFF.isoformat() for stamp in report.get("zip_member_dates", []))
+    if late_members or not verified or not evidence or date.fromisoformat(verified) > CUTOFF:
+        if allow_revised:
+            return report | {"eligible": True, "version_policy": "historical_observations_in_revised_snapshot"}
+        reason = "ZIP member timestamp after cutoff" if late_members else "pre-cutoff version evidence missing"
+        return report | {"eligible": False, "reason": reason}
     return report | {"eligible": True, "version_date": verified, "version_evidence": evidence}
 
 

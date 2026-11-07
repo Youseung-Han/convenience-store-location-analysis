@@ -1,9 +1,10 @@
 {
-  "seoul_model": "미실행",
-  "strategy_comparison": "미실행",
+  "seoul_model": "후향 검증 완료",
+  "strategy_comparison": "공간 시나리오 검증 완료",
   "area_geometry": "검증 완료",
   "population_weight": "미실행",
   "2023_extension": "미실행",
-  "model_reason": "2021–2022 매출·점포 원본의 기준일 적격성 미확인",
-  "strategy_reason": "적격한 서울 전체 예측값 부재"
+  "revised_snapshot_used": true,
+  "chosen_model": "baseline",
+  "assumed_lag_quarters": 2
 }

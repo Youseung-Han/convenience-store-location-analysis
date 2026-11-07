@@ -8,8 +8,13 @@
       "zip_member_dates": [
         "2025-06-04"
       ],
-      "eligible": false,
-      "reason": "ZIP member timestamp after cutoff"
+      "eligible": true,
+      "version_policy": "historical_observations_in_revised_snapshot",
+      "observations": {
+        "first_quarter": "2021Q1",
+        "last_quarter": "2021Q4",
+        "rows": 89150
+      }
     },
     "sales-2022": {
       "file": "sales-2022.zip",
@@ -18,8 +23,13 @@
       "zip_member_dates": [
         "2025-06-04"
       ],
-      "eligible": false,
-      "reason": "ZIP member timestamp after cutoff"
+      "eligible": true,
+      "version_policy": "historical_observations_in_revised_snapshot",
+      "observations": {
+        "first_quarter": "2022Q1",
+        "last_quarter": "2022Q4",
+        "rows": 88834
+      }
     },
     "stores-2021": {
       "file": "stores-2021.zip",
@@ -28,8 +38,13 @@
       "zip_member_dates": [
         "2025-06-04"
       ],
-      "eligible": false,
-      "reason": "ZIP member timestamp after cutoff"
+      "eligible": true,
+      "version_policy": "historical_observations_in_revised_snapshot",
+      "observations": {
+        "first_quarter": "2021Q1",
+        "last_quarter": "2021Q4",
+        "rows": 303880
+      }
     },
     "stores-2022": {
       "file": "stores-2022.zip",
@@ -38,8 +53,13 @@
       "zip_member_dates": [
         "2025-06-04"
       ],
-      "eligible": false,
-      "reason": "ZIP member timestamp after cutoff"
+      "eligible": true,
+      "version_policy": "historical_observations_in_revised_snapshot",
+      "observations": {
+        "first_quarter": "2022Q1",
+        "last_quarter": "2022Q4",
+        "rows": 305587
+      }
     },
     "areas": {
       "file": "areas.zip",
@@ -75,5 +95,174 @@
     "geometry_demo_radius_m": 500,
     "geometry_demo_selected_count": 5,
     "geometry_demo_source": "OA-15560; uniform weight per representative point"
+  },
+  "panel": {
+    "2021Q1": {
+      "all_area_rows": 1650,
+      "convenience_sales_rows": 703,
+      "convenience_store_rows": 1273,
+      "matched": 703,
+      "sales_join_rate": 1.0,
+      "stores_join_rate": 0.5522388059701493,
+      "zero_store": 5,
+      "missing_store": 377,
+      "missing_sales": 947,
+      "observed_zero_sales": 0,
+      "excluded_target": 947,
+      "usable_target": 703
+    },
+    "2021Q2": {
+      "all_area_rows": 1650,
+      "convenience_sales_rows": 714,
+      "convenience_store_rows": 1281,
+      "matched": 714,
+      "sales_join_rate": 1.0,
+      "stores_join_rate": 0.5573770491803278,
+      "zero_store": 4,
+      "missing_store": 369,
+      "missing_sales": 936,
+      "observed_zero_sales": 0,
+      "excluded_target": 936,
+      "usable_target": 714
+    },
+    "2021Q3": {
+      "all_area_rows": 1650,
+      "convenience_sales_rows": 717,
+      "convenience_store_rows": 1284,
+      "matched": 717,
+      "sales_join_rate": 1.0,
+      "stores_join_rate": 0.5584112149532711,
+      "zero_store": 2,
+      "missing_store": 366,
+      "missing_sales": 933,
+      "observed_zero_sales": 0,
+      "excluded_target": 933,
+      "usable_target": 717
+    },
+    "2021Q4": {
+      "all_area_rows": 1650,
+      "convenience_sales_rows": 721,
+      "convenience_store_rows": 1285,
+      "matched": 721,
+      "sales_join_rate": 1.0,
+      "stores_join_rate": 0.5610894941634241,
+      "zero_store": 3,
+      "missing_store": 365,
+      "missing_sales": 929,
+      "observed_zero_sales": 0,
+      "excluded_target": 929,
+      "usable_target": 721
+    },
+    "2022Q1": {
+      "all_area_rows": 1650,
+      "convenience_sales_rows": 722,
+      "convenience_store_rows": 1285,
+      "matched": 722,
+      "sales_join_rate": 1.0,
+      "stores_join_rate": 0.5618677042801556,
+      "zero_store": 0,
+      "missing_store": 365,
+      "missing_sales": 928,
+      "observed_zero_sales": 0,
+      "excluded_target": 928,
+      "usable_target": 722
+    },
+    "2022Q2": {
+      "all_area_rows": 1650,
+      "convenience_sales_rows": 726,
+      "convenience_store_rows": 1291,
+      "matched": 726,
+      "sales_join_rate": 1.0,
+      "stores_join_rate": 0.5623547637490317,
+      "zero_store": 5,
+      "missing_store": 359,
+      "missing_sales": 924,
+      "observed_zero_sales": 0,
+      "excluded_target": 924,
+      "usable_target": 726
+    },
+    "2022Q3": {
+      "all_area_rows": 1650,
+      "convenience_sales_rows": 734,
+      "convenience_store_rows": 1292,
+      "matched": 734,
+      "sales_join_rate": 1.0,
+      "stores_join_rate": 0.5681114551083591,
+      "zero_store": 4,
+      "missing_store": 358,
+      "missing_sales": 916,
+      "observed_zero_sales": 0,
+      "excluded_target": 916,
+      "usable_target": 734
+    },
+    "2022Q4": {
+      "all_area_rows": 1650,
+      "convenience_sales_rows": 746,
+      "convenience_store_rows": 1297,
+      "matched": 746,
+      "sales_join_rate": 1.0,
+      "stores_join_rate": 0.5751734772552043,
+      "zero_store": 4,
+      "missing_store": 353,
+      "missing_sales": 904,
+      "observed_zero_sales": 0,
+      "excluded_target": 904,
+      "usable_target": 746
+    },
+    "code_audit": {
+      "membership_changes": [
+        {
+          "quarter": "2021Q2",
+          "new_codes": 0,
+          "absent_codes": 0
+        },
+        {
+          "quarter": "2021Q3",
+          "new_codes": 0,
+          "absent_codes": 0
+        },
+        {
+          "quarter": "2021Q4",
+          "new_codes": 0,
+          "absent_codes": 0
+        },
+        {
+          "quarter": "2022Q1",
+          "new_codes": 0,
+          "absent_codes": 0
+        },
+        {
+          "quarter": "2022Q2",
+          "new_codes": 0,
+          "absent_codes": 0
+        },
+        {
+          "quarter": "2022Q3",
+          "new_codes": 0,
+          "absent_codes": 0
+        },
+        {
+          "quarter": "2022Q4",
+          "new_codes": 0,
+          "absent_codes": 0
+        }
+      ],
+      "codes_with_multiple_names": 0,
+      "codes_with_multiple_types": 0,
+      "names_with_multiple_codes": 0,
+      "remap": "none"
+    }
+  },
+  "space": {
+    "predictions": 726,
+    "matched_predictions": 726,
+    "district": "송파구",
+    "weight_measure": "equal_area_points",
+    "weight_observation_quarter": null,
+    "weights_screened_quarter": "2022Q2",
+    "transaction_weight_nonmissing_points": 68,
+    "district_candidate_count": 44,
+    "district_demand_point_count": 70,
+    "scenario_count": 45
   }
 }

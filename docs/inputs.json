@@ -4,14 +4,16 @@
     "seq": 47,
     "path": "sales-2021.zip",
     "portal_modified": "2023-10-30",
-    "sha256": "856e78aaacded902201d2476b274c5eb4f90b86eece4af4e4f2bba60c3d79eed"
+    "sha256": "856e78aaacded902201d2476b274c5eb4f90b86eece4af4e4f2bba60c3d79eed",
+    "sales_unit": "monthly_average"
   },
   "sales-2022": {
     "id": "OA-15572",
     "seq": 48,
     "path": "sales-2022.zip",
     "portal_modified": "2023-10-30",
-    "sha256": "748bf317428f5085ba64aeee9aed6c52b465b304d28c941d527e816d1909abe6"
+    "sha256": "748bf317428f5085ba64aeee9aed6c52b465b304d28c941d527e816d1909abe6",
+    "sales_unit": "monthly_average"
   },
   "stores-2021": {
     "id": "OA-15577",

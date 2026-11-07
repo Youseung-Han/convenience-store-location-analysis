@@ -174,7 +174,7 @@ def compare(demand, candidates, weights, label):
     return pd.DataFrame(scenarios), sites, repeat, maps
 
 
-def draw_map(path, demand, candidates, boundaries, maps, caption, radius=500):
+def draw_map(path, demand, candidates, boundaries, maps, caption, radius=500, detail=None):
     fig, axes = plt.subplots(1, len(maps), figsize=(5 * len(maps), 5.9), squeeze=False)
     for axis, (label, (selected, covered)) in zip(axes[0], maps.items()):
         lines = [line for code in demand["area"] for line in boundaries[code]]
@@ -201,8 +201,12 @@ def draw_map(path, demand, candidates, boundaries, maps, caption, radius=500):
     fig.legend(handles, labels, loc="lower center", ncol=2 if len(maps) == 1 else 4,
                frameon=False, bbox_to_anchor=(0.5, 0.088), fontsize=8)
     fig.suptitle(caption, y=0.97, fontsize=14, fontweight="bold")
-    fig.text(0.5, 0.045, f"Circles show {radius} m straight-line reach", ha="center", fontsize=8)
-    fig.text(0.5, 0.02, "Source: Seoul Metropolitan Government, OA-15560 (KOGL Type 1)",
+    note = f"Circles show {radius} m straight-line reach"
+    if detail:
+        note += f" | {detail}"
+    fig.text(0.5, 0.045, note, ha="center", fontsize=8)
+    sources = "OA-15560, OA-15572, OA-15577" if detail else "OA-15560"
+    fig.text(0.5, 0.02, f"Source: Seoul Metropolitan Government, {sources} (KOGL Type 1)",
              ha="center", fontsize=8)
     fig.tight_layout(rect=(0, 0.18, 1, 0.93))
     fig.savefig(path, dpi=160)

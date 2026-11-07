@@ -52,9 +52,12 @@ def area_check(out, areas, boundaries):
     }
 
 
-def run(raw, out, manifest, lag):
+def run(raw, out, manifest, lag, *, allow_revised=False):
     out.mkdir(parents=True, exist_ok=True)
-    provenance = {key: audit_source(raw, entry) for key, entry in manifest.items()}
+    provenance = {
+        key: audit_source(raw, entry, allow_revised=allow_revised and key in TABULAR)
+        for key, entry in manifest.items()
+    }
     model_ready = all(provenance.get(key, {}).get("eligible") for key in TABULAR)
     area_ready = provenance.get("areas", {}).get("eligible", False)
     if ((not model_ready and (out / "model_comparison.csv").exists())
@@ -89,6 +92,17 @@ def run(raw, out, manifest, lag):
         read_quarters(raw / manifest[f"stores-{year}"]["path"], "stores", year)
         for year in (2021, 2022)
     ], ignore_index=True)
+    for name, frame in (("sales", sales), ("stores", stores)):
+        for year, observed in frame.groupby(frame["quarter"].dt.year):
+            provenance[f"{name}-{year}"]["observations"] = {
+                "first_quarter": str(observed["quarter"].min()),
+                "last_quarter": str(observed["quarter"].max()),
+                "rows": len(observed),
+            }
+    status["revised_snapshot_used"] = any(
+        provenance[key].get("version_policy") == "historical_observations_in_revised_snapshot"
+        for key in TABULAR
+    )
     panel, quality["panel"] = make_panel(sales, stores)
     metrics, model, predictions = evaluate(panel, lag)
     metrics["sales_aggregation"] = sales_unit
@@ -126,12 +140,23 @@ def run(raw, out, manifest, lag):
         write_table(out, "strategy_summary.csv", summary)
         write_table(out, "strategy_candidates.csv", sites)
         write_table(out, "selection_frequency.csv", repeats)
-        draw_map(out / "candidate_map.png", demand, candidates, boundaries, maps,
-                 "2022 Q4 forecasts | 2023 area snapshot")
+        labels = {"A": "A. Sales first", "B": "B. Coverage first", "C": "C. 95% coverage floor"}
+        panels = {f"{labels[key]} | {int(mask.sum())}/{len(demand)} points": (sites, mask)
+                  for key, (sites, mask) in maps.items()}
+        draw_map(out / "candidate_map.png", demand, candidates, boundaries, panels,
+                 "2022 Q4 forecasts | 2023 area snapshot",
+                 detail="Monthly average sales per store (KRW)" if sales_unit == "monthly_average"
+                 else "Quarterly total sales per store (KRW)")
         quality["space"] = {
             "predictions": len(predictions), "matched_predictions": int(rates["candidates"].sum()),
             "district": demand.iloc[0]["district"], "weight_measure": label,
-            "weight_observation_quarter": str(prior_quarter), "scenario_count": len(summary),
+            "weight_observation_quarter": str(prior_quarter) if label != "equal_area_points" else None,
+            "weights_screened_quarter": str(prior_quarter),
+            "transaction_weight_nonmissing_points": int(demand["area"].map(
+                transaction.set_index("area")["weight"]
+            ).notna().sum()),
+            "district_candidate_count": len(candidates), "district_demand_point_count": len(demand),
+            "scenario_count": len(summary),
         }
         status["strategy_comparison"] = "공간 시나리오 검증 완료"
         if label == "historical_foot_traffic":
@@ -150,6 +175,8 @@ def main():
     parser.add_argument("--manifest", type=Path, default=Path("docs/inputs.json"))
     parser.add_argument("--lag", type=int, default=2)
     parser.add_argument("--download", action="store_true", help="fetch current portal archives")
+    parser.add_argument("--allow-revised-observations", action="store_true",
+                        help="allow later editions of the 2021–2022 sales and store files")
     parser.add_argument("--require-full", action="store_true", help="exit 2 if analysis is incomplete")
     args = parser.parse_args()
     if args.lag < 2:
@@ -157,7 +184,8 @@ def main():
     manifest = json.loads(args.manifest.read_text(encoding="utf-8-sig"))
     if args.download:
         download(args.raw, manifest)
-    status = run(args.raw, args.out, manifest, args.lag)
+    status = run(args.raw, args.out, manifest, args.lag,
+                 allow_revised=args.allow_revised_observations)
     print(json.dumps(status, ensure_ascii=True, indent=2))
     return 2 if args.require_full and any(status[stage] == "미실행" for stage in (
         "seoul_model", "strategy_comparison",
